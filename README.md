@@ -19,18 +19,23 @@
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/CS2-Utilities.git
+```
 
 2. Navigate into the project folder:
+```bash
 cd CS2-Utilities
-
+```
 3. Install dependencies for the API:
+```bash
 cd api
 pip install -r requirements.txt
-
+```
 4. Run the API locally:
+```bash
 python app.py
-
+```
 5. Open a new terminal and run the client interface:
+```bash
 python app.py
 ```
 ---
