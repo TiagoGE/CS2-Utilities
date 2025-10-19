@@ -40,7 +40,8 @@ python app.py
 ```
 ---
 
-##Usage
+## Usage
+
 Choose a map (Mirage, Dust, Inferno)
 Choose a side (T or CT)
 Choose a bomb site (A, B, Mid)
@@ -50,17 +51,17 @@ The video opens in your default browser
 
 ---
 
-##Changelog
+## Changelog
 For a detailed history of updates, see CHANGELOG.md
 
 ---
 
-##Credits
+## Credits
 Created by Tiago Guerra Endsfeldz
 
 ---
 
-##License
+## License
 This project is licensed under the MIT License - see the LICENSE
  file for details.
 You are free to use, copy, and run the executable. You may also modify the code if you wish, as long as the original copyright notice is included.
