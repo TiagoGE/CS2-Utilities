@@ -1,0 +1,78 @@
+{
+    "Mirage": {
+        "T": {
+            "A": {
+                "Granade": {},
+                "Flash": {},
+                "Smoke": {
+                    "Palace": "https://www.youtube.com/shorts/723HQXqKAlg",
+                    "Jungle": "https://youtu.be/example2",
+                    "Stairs": "https://youtu.be/example3"
+                },
+                "Molotov": {}
+            },
+            "B": {},
+            "Mid": {}
+        },
+        "CT": {
+            "A": {
+                "Granade": {},
+                "Flash": {},
+                "Smoke": {},
+                "Molotov": {}
+            },
+            "B": {},
+            "Mid": {}
+        }
+    },
+    "Dust": {
+        "T": {
+            "A": {
+                "Granade": {},
+                "Flash": {},
+                "Smoke": {
+                    "Palace": "https://youtu.be/example1",
+                    "Jungle": "https://youtu.be/example2",
+                    "Stairs": "https://youtu.be/example3"
+                },
+                "Molotov": {}
+            }
+        },
+        "CT": {
+            "A": {
+                "Granade": {},
+                "Flash": {},
+                "Smoke": {},
+                "Molotov": {}
+            },
+            "B": {},
+            "Mid": {}
+        }
+    },
+    "Inferno": {
+        "T": {
+            "A": {
+                "Granade": {},
+                "Flash": {},
+                "Smoke": {
+                    "Palace": "https://youtu.be/example1",
+                    "Jungle": "https://youtu.be/example2",
+                    "Stairs": "https://youtu.be/example3"
+                },
+                "Molotov": {}
+            },
+            "B": {},
+            "Mid": {}
+        },
+        "CT": {
+            "A": {
+                "Granade": {},
+                "Flash": {},
+                "Smoke": {},
+                "Molotov": {}
+            },
+            "B": {},
+            "Mid": {}
+        }
+    }
+}
