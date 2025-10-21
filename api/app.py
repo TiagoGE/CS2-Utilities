@@ -4,18 +4,15 @@ import os
 
 app = Flask(__name__)
 
-#Load videos data
-# with open(os.path.join(os.path.dirname(__file__), "videos.json"), "r")as f:
-#     data = json.load(f)
+API_VERSION = "0.2.1"
 
 # Load JSON once at startup
 with open("videos.json", "r") as f:
     data = json.load(f)
 
-
-# @app.route("/")
-# def home():
-#     return jsonify({"message": "CS2 Utilities API is running..."})
+@app.route("/version")
+def version():
+    return jsonify({"version": API_VERSION})
 
 @app.route("/utilities/<map>/<side>/<site>/<util>", methods=["GET"])
 def get_videos(map, side, site, util):

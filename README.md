@@ -52,7 +52,7 @@ The video opens in your default browser
 ---
 
 ## Changelog
-For a detailed history of updates, see CHANGELOG.md
+For a detailed history of updates, see [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
@@ -62,6 +62,4 @@ Created by Tiago Guerra Endsfeldz
 ---
 
 ## License
-This project is licensed under the MIT License - see the LICENSE
- file for details.
-You are free to use, copy, and run the executable. You may also modify the code if you wish, as long as the original copyright notice is included.
+This project is licensed under the MIT License - see the [MIT LICENSE](LICENSE) file for details.
