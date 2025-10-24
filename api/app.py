@@ -1,18 +1,31 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 import json
-import os
+import os, sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from  version import get_latest_version_info
 
 app = Flask(__name__)
 
-API_VERSION = "0.2.1"
+APP_VERSION, RELEASE_DATE = get_latest_version_info()
+print(f"{APP_VERSION} / {RELEASE_DATE}")
+
+DATA_FILE = "videos.json"
 
 # Load JSON once at startup
-with open("videos.json", "r") as f:
-    data = json.load(f)
+if os.path.exists(DATA_FILE):
+    with open(DATA_FILE, "r") as f:
+        data = json.load(f)
+else:
+    data = {}
+
 
 @app.route("/version")
 def version():
-    return jsonify({"version": API_VERSION})
+    return jsonify({
+        "version": APP_VERSION,
+        "release_date": RELEASE_DATE
+    })
 
 @app.route("/utilities/<map>/<side>/<site>/<util>", methods=["GET"])
 def get_videos(map, side, site, util):

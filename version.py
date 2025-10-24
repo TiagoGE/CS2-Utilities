@@ -1,10 +1,14 @@
-import re
+import re, os
 
-def get_latest_version_info(changelog_path="CHANGELOG.md"):
+def get_latest_version_info(changelog_path=None):
     """
     Reads CHANGELOG.md and returns the latest version and date.
     Returns a tuple: (version, date)
     """
+    if changelog_path is None:
+        # Make path relative to this file
+        changelog_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CHANGELOG.md")
+
     try:
         with open(changelog_path, "r", encoding="utf-8") as f:
             content = f.read()
