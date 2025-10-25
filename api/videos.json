@@ -20,7 +20,9 @@
             "Mid": {
                 "Granade": {},
                 "Flash": {},
-                "Smoke": {},
+                "Smoke": {
+                    "Window": "https://www.youtube.com/watch?v=RUOtt8F-1Mg"
+                },
                 "Molotov": {}
             }
         },

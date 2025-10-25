@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2025-10-24
+### Added
+- Input validation for all menu selections to prevent crashes.
+- Back/Exit options in menus for safer navigation.
+- Error handling when API returns no videos.
+- Clear and numbered video selection list for easier choice.
+- Consolidated keys resolving function for API requests.
+
+### Fixed
+- Crashes caused by invalid user input (letters, out-of-range numbers).
+- Broken menu flow on invalid selections.
+- Improved console UI readability with borders and spacing.
+
 ## [0.2.1] - 2025-10-19
 ### Fixed
 - Added missing utilities for **Bomb B** and **Mid** sites across all maps in `videos.json`.

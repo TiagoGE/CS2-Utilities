@@ -1,95 +1,126 @@
-# CS2 helper Prototype
-
 import requests
 import webbrowser
 import os
-
 from version import get_latest_version_info
 
 APP_VERSION, RELEASE_DATE = get_latest_version_info()
-print(f"Version- [{APP_VERSION}] ({RELEASE_DATE})\n")
+API_URL = "https://cs2-quickutil.onrender.com"
+
 
 def clear_console():
-    # Windows
-    if os.name == "nt":
-        os.system("cls")
-    # Mac / Linux
-    else:
-        os.system("clear")
-
-# The base URL of API (local for now)
-BASE_URL = "http://127.0.0.1:5000/utilities"
-
-maps = ["Mirage", "Dust", "Inferno"]
-sides = ["Terrorist", "Counter-Terrorist"]
-sites = ["Bomb A", "Bomb B", "Mid"]
-utilities = ["Granane", "Flash", "Smoke", "Molotov"]
-
-# --> ask for inputs <--
-print("Choose a map:")
-for i, m in enumerate(maps):
-    print(f"{i} - {m}")
-map_choice = int(input("Input: "))
-clear_console()
-
-print("Choose a side:")
-for i, s in enumerate(sides):
-    print(f"{i} - {s}")
-side_choice = int(input("Input: "))
-clear_console()
-
-print("Choose bomb site:")
-for i, site in enumerate(sites):
-    print(f"{i} - {site}")
-site_choice = int(input("Input: "))
-clear_console()
-
-print("Choose a utility:")
-for i, u in enumerate(utilities):
-    print(f"{i} - {u}")
-util_choice = int(input("Input: "))
-clear_console()
+    os.system("cls" if os.name == "nt" else "clear")
 
 
-# Build keys to access JSON
-# -------------------------
-map_key = maps[map_choice]
-side_key = "T" if side_choice == 0 else "CT"
-site_key = "A" if site_choice == 0 else "B" if site_choice == 1 else "Mid"
-util_key = utilities[util_choice]
+def check_update():
+    try:
+        response = requests.get(f"{API_URL}/version")
+        if response.status_code == 200:
+            latest_version = response.json().get("version")
+            if latest_version != APP_VERSION:
+                print(f"🟡 Update available: v{latest_version}")
+            else:
+                print("✅ You are up to date!")
+    except:
+        print("⚠️ Could not check for updates.")
 
-# Build the API URL
-url = f"{BASE_URL}/{map_key}/{side_key}/{site_key}/{util_key}"
-print(url)
-response = requests.get(url)
 
-if response.status_code == 200:
+def get_valid_input(prompt, valid_options):
+    while True:
+        choice = input(prompt).strip()
+
+        if choice.isdigit():
+            choice = int(choice)
+            if choice in valid_options:
+                return choice
+
+        print("❌ Invalid input. Please try again.\n")
+
+
+def main_menu():
+    while True:
+        clear_console()
+        print(f"┌────────────────────────────────┐")
+        print(f"│  CS2 Quick Utilities           │  v{APP_VERSION}")
+        print(f"├────────────────────────────────┤")
+        print(f"│ 1 • Mirage                     │")
+        print(f"│ 2 • Dust2                      │")
+        print(f"│ 3 • Inferno                    │")
+        print(f"│ 0 • Exit                       │")
+        print(f"└────────────────────────────────┘")
+        check_update()
+
+        map_choice = get_valid_input("\nSelect map: ", [0, 1, 2, 3])
+        if map_choice == 0:
+            return None  # Exit app
+        clear_console()
+        
+
+        side_choice = get_valid_input("\nSide (1=T | 2=CT | 0=Back): ", [0, 1, 2])
+        if side_choice == 0:
+            continue  # Restart menu
+        clear_console()
+
+        site_choice = get_valid_input("\nSite (1=A | 2=B | 3=Mid | 0=Back): ", [0, 1, 2, 3])
+        if site_choice == 0:
+            continue  # Restart menu
+        clear_console()
+
+        util_choice = get_valid_input("\nUtility (1=Smoke | 2=Flash | 3=Molotov | 0=Back): ", [0, 1, 2, 3])
+        if util_choice == 0:
+            continue  # Restart menu
+        clear_console()
+
+        # All data valid
+        return map_choice, side_choice, site_choice, util_choice
+
+
+def resolve_keys(map_choice, side_choice, site_choice, util_choice):
+    map_keys = {1: "Mirage", 2: "Dust2", 3: "Inferno"}
+    side_keys = {1: "T", 2: "CT"}
+    site_keys = {1: "A", 2: "B", 3: "Mid"}
+    util_keys = {1: "Smoke", 2: "flash", 3: "molotov"}
+
+    return (map_keys.get(map_choice),
+            side_keys.get(side_choice),
+            site_keys.get(site_choice),
+            util_keys.get(util_choice))
+
+
+def fetch_and_open_videos(map_key, side_key, site_key, util_key):
+    url = f"{API_URL}/utilities/{map_key}/{side_key}/{site_key}/{util_key}"
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        print("⚠️ No utilities found for that selection!")
+        input("\nPress Enter to return...")
+        return
+
     data = response.json()
+    videos = data.get("videos", {})
 
-    # Access the nested "videos" dictionary
-    videos = data.get("videos", {})  # returns {} if "videos" key doesn't exist
-    
-    if videos:
-        print("==> Available videos:\n")
+    if not videos:
+        print("⚠️   No videos available yet.")
+        input("\nPress Enter to return...")
+        return
 
-        # Convert dictionary items into a list for stable indexing
-        video_list = list(videos.items())  # [(spot, url), ...]
+    # Show video list
+    video_list = list(videos.items())
+    print("\n==> Available Videos:\n")
+    for i, (spot, _) in enumerate(video_list):
+        print(f"{i} - {spot}")
 
-        # Display numbered list for user
-        for i, (spot, _) in enumerate(video_list):
-            print(f"{i} - {spot}")
-        
-        # Get user's choice
-        choice = int(input("\nChoose a video (enter number): "))
+    choice = get_valid_input("\nChoose a video: ", list(range(len(video_list))))
+    webbrowser.open(video_list[choice][1])
+    print("\n✅ Video opened!")
 
-        # Safely get the URL corresponding to the choice
-        selected_url = video_list[choice][1]
 
-        print(f"\nOpening: {selected_url}")
-        webbrowser.open(selected_url)
-        
-    else:
-        print("⚠️ Could not get utility info.")
-else:
-    print(f"Error {response.status_code}: Unable to reach API.")
+if __name__ == "__main__":
+    while True:
+        result = main_menu()
+        if result is None:
+            print("\nGoodbye! 👋")
+            break
 
+        map_choice, side_choice, site_choice, util_choice = result
+        keys = resolve_keys(map_choice, side_choice, site_choice, util_choice)
+        fetch_and_open_videos(*keys)
