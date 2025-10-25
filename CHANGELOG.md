@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.3] - 2025-10-25
+### Added
+- Spinner animation displayed while warming up the API server to improve user experience on cold starts.
+- First-time version check at app launch only, avoiding repeated requests during menu navigation.
+
+### Fixed
+- Prevented unnecessary version requests on every menu display, optimizing performance.
+- Handled cold-start API timeouts gracefully with retry mechanism.
+- Adjusted warm-up retry intervals to reduce repeated API calls
+
 ## [0.2.2] - 2025-10-24
 ### Added
 - Input validation for all menu selections to prevent crashes.

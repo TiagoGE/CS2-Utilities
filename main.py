@@ -1,14 +1,37 @@
 import requests
 import webbrowser
 import os
+import time
 from version import get_latest_version_info
+from spinner import DotSpinner
 
 APP_VERSION, RELEASE_DATE = get_latest_version_info()
 API_URL = "https://cs2-quickutil.onrender.com"
-
+update_message = ""
 
 def clear_console():
     os.system("cls" if os.name == "nt" else "clear")
+    
+
+def warm_up_api():
+    print("\n⏳ Starting app... waking up servers, please wait...\n")
+    spinner = DotSpinner("Waking up servers ")
+    spinner.start()
+
+    attempts = 0
+    while attempts < 6:
+        try:
+            response = requests.get(f"{API_URL}/")
+            if response.status_code == 200:
+                spinner.stop("✅ Servers ready!")
+                return
+        except:
+            pass
+        time.sleep(4)
+        attempts += 1
+
+    spinner.stop("⚠️ API still waking up")
+    time.sleep(1)
 
 
 def check_update():
@@ -17,11 +40,11 @@ def check_update():
         if response.status_code == 200:
             latest_version = response.json().get("version")
             if latest_version != APP_VERSION:
-                print(f"🟡 Update available: v{latest_version}")
+                return(f"🟡 Update available: v{latest_version}")
             else:
-                print("✅ You are up to date!")
+                return("✅ You are up to date!")
     except:
-        print("⚠️ Could not check for updates.")
+        return("⚠️ Could not check for updates.")
 
 
 def get_valid_input(prompt, valid_options):
@@ -37,41 +60,17 @@ def get_valid_input(prompt, valid_options):
 
 
 def main_menu():
-    while True:
-        clear_console()
-        print(f"┌────────────────────────────────┐")
-        print(f"│  CS2 Quick Utilities           │  v{APP_VERSION}")
-        print(f"├────────────────────────────────┤")
-        print(f"│ 1 • Mirage                     │")
-        print(f"│ 2 • Dust2                      │")
-        print(f"│ 3 • Inferno                    │")
-        print(f"│ 0 • Exit                       │")
-        print(f"└────────────────────────────────┘")
-        check_update()
-
-        map_choice = get_valid_input("\nSelect map: ", [0, 1, 2, 3])
-        if map_choice == 0:
-            return None  # Exit app
-        clear_console()
-        
-
-        side_choice = get_valid_input("\nSide (1=T | 2=CT | 0=Back): ", [0, 1, 2])
-        if side_choice == 0:
-            continue  # Restart menu
-        clear_console()
-
-        site_choice = get_valid_input("\nSite (1=A | 2=B | 3=Mid | 0=Back): ", [0, 1, 2, 3])
-        if site_choice == 0:
-            continue  # Restart menu
-        clear_console()
-
-        util_choice = get_valid_input("\nUtility (1=Smoke | 2=Flash | 3=Molotov | 0=Back): ", [0, 1, 2, 3])
-        if util_choice == 0:
-            continue  # Restart menu
-        clear_console()
-
-        # All data valid
-        return map_choice, side_choice, site_choice, util_choice
+    clear_console()
+    print(f"┌────────────────────────────────┐")
+    print(f"│  CS2 Quick Utilities           │  v{APP_VERSION}")
+    print(f"├────────────────────────────────┤")
+    print(f"│ 1 • Mirage                     │")
+    print(f"│ 2 • Dust2                      │")
+    print(f"│ 3 • Inferno                    │")
+    print(f"│ 0 • Exit                       │")
+    print(f"└────────────────────────────────┘")
+    print(update_message)
+    return get_valid_input("\nSelect map: ", [0, 1, 2, 3])
 
 
 def resolve_keys(map_choice, side_choice, site_choice, util_choice):
@@ -109,18 +108,39 @@ def fetch_and_open_videos(map_key, side_key, site_key, util_key):
     for i, (spot, _) in enumerate(video_list):
         print(f"{i} - {spot}")
 
-    choice = get_valid_input("\nChoose a video: ", list(range(len(video_list))))
+    choice = get_valid_input("\nChoose a video: ",
+                             list(range(len(video_list))))
     webbrowser.open(video_list[choice][1])
     print("\n✅ Video opened!")
 
 
 if __name__ == "__main__":
+    warm_up_api()
+
+    update_message = update_message = check_update() # check update only once
+
     while True:
-        result = main_menu()
-        if result is None:
+        map_choice = main_menu()
+
+        if map_choice == 0:
             print("\nGoodbye! 👋")
             break
+        clear_console()
 
-        map_choice, side_choice, site_choice, util_choice = result
+        side_choice = get_valid_input("Side (1=T | 2=CT | 0=Back): ", [0, 1, 2])
+        if side_choice == 0:
+            continue
+        clear_console()
+
+        site_choice = get_valid_input("Site (1=A | 2=B | 3=Mid | 0=Back): ", [0, 1, 2, 3])
+        if site_choice == 0:
+            continue
+        clear_console()
+        
+        util_choice = get_valid_input("Utility (1=Smoke | 2=Flash | 3=Molotov | 0=Back): ", [0, 1, 2, 3])
+        if util_choice == 0:
+            continue
+        clear_console()
+
         keys = resolve_keys(map_choice, side_choice, site_choice, util_choice)
         fetch_and_open_videos(*keys)
