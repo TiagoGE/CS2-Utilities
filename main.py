@@ -14,8 +14,8 @@ def clear_console():
     
 
 def warm_up_api():
-    print("\n⏳ Starting app... waking up servers, please wait...\n")
-    spinner = DotSpinner("Waking up servers ")
+    print("\nWaking up servers, please wait...")
+    spinner = DotSpinner("Zzz ")
     spinner.start()
 
     attempts = 0

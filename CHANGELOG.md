@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2025-10-29
+### Added
+- All utility videos for "T side Mirage A site"
+
 ## [0.2.3] - 2025-10-25
 ### Added
 - Spinner animation displayed while warming up the API server to improve user experience on cold starts.

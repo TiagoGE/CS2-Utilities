@@ -3,13 +3,19 @@
         "T": {
             "A": {
                 "Granade": {},
-                "Flash": {},
-                "Smoke": {
-                    "Palace": "https://www.youtube.com/shorts/723HQXqKAlg",
-                    "Jungle": "https://youtu.be/example2",
-                    "Stairs": "https://youtu.be/example3"
+                "Flash": {
+                    "Entry": "https://www.youtube.com/shorts/jYukaOpp6kI"
                 },
-                "Molotov": {}
+                "Smoke": {
+                    "Ct": "https://www.youtube.com/shorts/majTupotXSw",
+                    "Jungle": "https://www.youtube.com/shorts/48EuZrg8yFM",
+                    "Stairs": "https://www.youtube.com/shorts/JrSkvNJzHgU"
+                },
+                "Molotov": {
+                    "Firebox": "https://www.youtube.com/shorts/8Dwb8e3c8PU",
+                    "Sandwich": "https://www.youtube.com/shorts/lgi0lSFJmwk",
+                    "Under Palace": "https://www.youtube.com/shorts/DZdIyICWntY"
+                }
             },
             "B": {
                 "Granade": {},
